@@ -7,6 +7,7 @@ public class Plant {
     String plantShelf;
     String plantMessage;
 
+    //Constructor
     public Plant() {
 
     }
