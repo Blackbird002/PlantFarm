@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlantFarm</string>
+    <string name="AddBinTitle">Add a Bin</string>
+    <string name="TypeAMessage">Type A Message</string>
+
+    <string-array name="shelves">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="rows">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
+
+</resources>

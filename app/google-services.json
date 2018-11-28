@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "109440000438",
+    "firebase_url": "https://plantfarm-aba43.firebaseio.com",
+    "project_id": "plantfarm-aba43",
+    "storage_bucket": "plantfarm-aba43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109440000438:android:3e6d1d5708cbef14",
+        "android_client_info": {
+          "package_name": "com.example.riads.plantfarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109440000438-73u25330h3mmoj7c25s7ne9c661t7v1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.riads.plantfarm",
+            "certificate_hash": "99f6fb3f1f621fe15751b373f758f5cc6dd840c8"
+          }
+        },
+        {
+          "client_id": "109440000438-01dj5q3qcqpie3vldo0dkjvqanh31lp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBSmzzb_TiSK8QqE1JQ6UMozdgNlpmCW8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109440000438-01dj5q3qcqpie3vldo0dkjvqanh31lp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
