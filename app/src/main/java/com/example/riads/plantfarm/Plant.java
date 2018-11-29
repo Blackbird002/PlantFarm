@@ -8,6 +8,7 @@ public class Plant {
     String plantMessage;
 
     //Constructor
+    // Yes this is a constructor
     public Plant() {
 
     }
