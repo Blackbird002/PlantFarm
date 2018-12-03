@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         String message = txtMessage.getText().toString().trim();
         String row = spnRow.getSelectedItem().toString();
         String shelf = spnShelf.getSelectedItem().toString();
-        databasePlants = FirebaseDatabase.getInstance().getReference("Bins");
+        databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
 
         if(!TextUtils.isEmpty(message)){
 
