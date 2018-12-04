@@ -26,4 +26,28 @@ public class Plant {
         this.plantOutTime = null;
         this.plantTotalTime = null;
     }
+
+    public String getPlantType() {
+        return plantType;
+    }
+
+    public String getPlantMessage() {
+        return plantMessage;
+    }
+
+    public Boolean getPlantDrying() {
+        return plantDrying;
+    }
+
+    public Map getPlantInTime() {
+        return plantInTime;
+    }
+
+    public Map getPlantOutTime() {
+        return plantOutTime;
+    }
+
+    public Map getPlantTotalTime() {
+        return plantTotalTime;
+    }
 }

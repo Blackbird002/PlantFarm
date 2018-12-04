@@ -11,14 +11,11 @@
         android:id="@+id/btnAddToDatabase"
         android:layout_width="202dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="46dp"
         android:text="Add Plant"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
-        app:layout_constraintVertical_bias="0.605" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage" />
 
     <TextView
         android:id="@+id/textView"
@@ -40,10 +37,12 @@
         android:id="@+id/txtMessage"
         android:layout_width="303dp"
         android:layout_height="51dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="46dp"
         android:ems="10"
         android:hint="@string/TypeAMessage"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddToDatabase"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +50,7 @@
 
     <Spinner
         android:id="@+id/spnHerb"
-        android:layout_width="303dp"
+        android:layout_width="161dp"
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="54dp"
@@ -67,8 +66,7 @@
         android:id="@+id/textView4"
         android:layout_width="151dp"
         android:layout_height="31dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="120dp"
         android:text="Choose Herb:"
         android:textAlignment="textStart"
         android:textSize="18sp"

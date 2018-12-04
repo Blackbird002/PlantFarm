@@ -33,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
             //We construct the plant object
             Plant plant = new Plant(plantId,selectedHerb,message, ServerValue.TIMESTAMP);
 
+            //Set the value of the child (given the key that was generated)
             databasePlants.child(plantId).setValue(plant);
 
-            Toast.makeText(this, "Plant is added!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Plant added!", Toast.LENGTH_LONG).show();
 
         }
         else{
@@ -62,8 +63,5 @@ public class MainActivity extends AppCompatActivity {
                 addPlantToFirebase();
             }
         });
-
-
-
     }
 }

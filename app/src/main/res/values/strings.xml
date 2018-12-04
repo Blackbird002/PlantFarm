@@ -3,6 +3,9 @@
     <string name="app_name">PlantFarm</string>
     <string name="AddPlantTitle">Add a Plant</string>
     <string name="TypeAMessage">Type A Message</string>
+    <string name="AddPlantBtn">Add Plant</string>
+    <string name="DryingRoomBtn">Drying Room</string>
+    <string name="PlantLogsBtn">Plant Logs</string>
 
     <string-array name="shelves">
         <item>1</item>
