@@ -1,41 +1,29 @@
 package com.example.riads.plantfarm;
 
+import android.util.Log;
+
+import java.util.Map;
+
 public class Plant {
 
     String plantID;
-    String plantRow;
-    String plantShelf;
+    String plantType;
     String plantMessage;
 
-    //Constructor
-    // Yes this is a constructor
-    public Plant() {
+    Boolean plantDrying;
 
-    }
+    Map plantInTime;
+    Map plantOutTime;
+    Map plantTotalTime;
 
-
-
-    //Constructor
-    public Plant(String plantID, String plantRow, String plantShelf, String plantMessage) {
+    public Plant(String plantID, String plantType, String plantMessage,Map plantInTime) {
         this.plantID = plantID;
-        this.plantRow = plantRow;
-        this.plantShelf = plantShelf;
+        this.plantType = plantType;
         this.plantMessage = plantMessage;
-    }
+        this.plantInTime = plantInTime;
 
-    public String getPlantID() {
-        return plantID;
-    }
-
-    public String getPlantRow() {
-        return plantRow;
-    }
-
-    public String getPlantShelf() {
-        return plantShelf;
-    }
-
-    public String getPlantMessage() {
-        return plantMessage;
+        this.plantDrying = true;
+        this.plantOutTime = null;
+        this.plantTotalTime = null;
     }
 }

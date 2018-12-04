@@ -12,64 +12,68 @@
         android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:layout_marginEnd="86dp"
         android:layout_marginBottom="8dp"
-        android:text="Add Bin"
+        android:text="Add Plant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtMessage" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
+        app:layout_constraintVertical_bias="0.605" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="237dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="73dp"
-        android:layout_marginBottom="40dp"
-        android:text="@string/AddBinTitle"
+        android:layout_marginBottom="66dp"
+        android:text="@string/AddPlantTitle"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spnShelf"
+        app:layout_constraintBottom_toTopOf="@+id/spnHerb"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txtMessage"
         android:layout_width="303dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="@string/TypeAMessage"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddToDatabase"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnRow" />
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnHerb" />
 
     <Spinner
-        android:id="@+id/spnShelf"
-        android:layout_width="@android:dimen/thumbnail_height"
+        android:id="@+id/spnHerb"
+        android:layout_width="303dp"
         android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="61dp"
-        android:entries="@array/shelves"
-        app:layout_constraintBottom_toTopOf="@+id/spnRow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Spinner
-        android:id="@+id/spnRow"
-        android:layout_width="@android:dimen/thumbnail_height"
-        android:layout_height="64dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="96dp"
-        android:layout_marginBottom="36dp"
-        android:entries="@array/rows"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="54dp"
+        android:entries="@array/herbList"
+        android:popupBackground="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/txtMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spnShelf" />
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="151dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="192dp"
+        android:layout_marginBottom="2dp"
+        android:text="Choose Herb:"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/spnHerb"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PlantFarm</string>
-    <string name="AddBinTitle">Add a Bin</string>
+    <string name="AddPlantTitle">Add a Plant</string>
     <string name="TypeAMessage">Type A Message</string>
 
     <string-array name="shelves">
@@ -14,6 +14,18 @@
         <item>A</item>
         <item>B</item>
         <item>C</item>
+    </string-array>
+
+    <string-array name="herbList">
+        <item>Basil</item>
+        <item>Lavender</item>
+        <item>Mint</item>
+        <item>Rosemary</item>
+        <item>Oregano</item>
+        <item>Thyme</item>
+        <item>Sage</item>
+        <item>Chives</item>
+        <item>Cilantro</item>
     </string-array>
 
 </resources>

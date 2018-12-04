@@ -11,32 +11,31 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnAddToDatabase;
     private EditText txtMessage;
-    private Spinner spnRow;
-    private Spinner spnShelf;
+    private Spinner spnHerb;
     DatabaseReference databasePlants;
 
     private void addPlantToFirebase(){
         String message = txtMessage.getText().toString().trim();
-        String row = spnRow.getSelectedItem().toString();
-        String shelf = spnShelf.getSelectedItem().toString();
+        String selectedHerb = spnHerb.getSelectedItem().toString();
         databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
 
         if(!TextUtils.isEmpty(message)){
 
             //We generate a unique bin ID every time
-            String binId = databasePlants.push().getKey();
+            String plantId = databasePlants.push().getKey();
 
             //We construct the plant object
-            Bin bin = new Bin(binId,row,shelf,message);
+            Plant plant = new Plant(plantId,selectedHerb,message, ServerValue.TIMESTAMP);
 
-            databasePlants.child(binId).setValue(bin);
+            databasePlants.child(plantId).setValue(plant);
 
-            Toast.makeText(this, "Bin is added!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Plant is added!", Toast.LENGTH_LONG).show();
 
         }
         else{
@@ -54,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         //Assign all the UI elements
         btnAddToDatabase = findViewById(R.id.btnAddToDatabase);
         txtMessage = findViewById(R.id.txtMessage);
-        spnRow = findViewById(R.id.spnRow);
-        spnShelf = findViewById(R.id.spnShelf);
+        spnHerb = findViewById(R.id.spnHerb);
 
         btnAddToDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
