@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -19,7 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+//This activity removes Plants from the "Plants" database."D - Delete part of CRUD"
 public class RemovePlantActivity extends AppCompatActivity {
+
+    //Plant log candidate?
+    Plant plantLogCandidate;
 
     DatabaseReference databasePlants;
     List<Plant> plants;
@@ -39,26 +45,54 @@ public class RemovePlantActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //We get the plant ID here...
                 Plant plant = plants.get(i);
+
+                //Candidate for plant log database
+                plantLogCandidate = plant;
                 //We show the delete dialog next...
-                showDeleteDialog(plant.getPlantID(),plant.getPlantType());
+                showDeleteDialog(plant.getPlantID(),plant.getPlantType(), plant.getPlantMessage());
                 return true;
             }
         });
     }
 
+    //Adds the removed plant to the Logs (no longer drying)
+    private void addPlantToLogs(Plant remPlant){
+        //Set plant drying boolean to false
+        remPlant.noLongerDrying();
+
+        //Create reference to Logs in database
+        DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
+
+        //We generate a unique Log ID every time
+        String plantId = databaseLogs.push().getKey();
+
+        //Set the value of the child (given the key that was generated)
+        databaseLogs.child(plantId).setValue(remPlant);
+
+        plantLogCandidate = null;
+    }
+
+
+    //Deletes the plant from the database given ID
     private boolean deletePlant(String id) {
-        //getting the specified artist reference
-        databasePlants = FirebaseDatabase.getInstance().getReference("Plants").child(id);
+        try {
+            //getting the specified plant reference from database
+            DatabaseReference databasePlant = FirebaseDatabase.getInstance().getReference("Plants").child(id);
 
-        //removing artist
-        databasePlants.removeValue();
+            //removes the plant from the database
+            databasePlant.removeValue();
 
-        Toast.makeText(getApplicationContext(), "Plant Deleted!", Toast.LENGTH_LONG).show();
+            //Bring up a Toast and update the user with information!
+            Toast.makeText(getApplicationContext(), "Plant Deleted!", Toast.LENGTH_LONG).show();
+
+        } catch (DatabaseException dataError){
+            Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
+        }
         return true;
     }
 
     //Brings up the delete Dialog that has the delete button
-    private void showDeleteDialog(final String plantId, final String plantType){
+    private void showDeleteDialog(final String plantId, final String plantType, final String plantMessage){
         //Using an AlertDialog...
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -66,12 +100,14 @@ public class RemovePlantActivity extends AppCompatActivity {
         final View dialogView = inflater.inflate(R.layout.delete_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        //Assigns the delete button
+        //Assigns the delete & cancel button & textview (message of plant)
         final Button buttonDelete = dialogView.findViewById(R.id.buttonDeletePlant);
         final Button buttonCancel = dialogView.findViewById(R.id.buttonDeleteCancel);
+        final TextView textMessage = dialogView.findViewById(R.id.textViewDeleteMessage);
 
         //Set the title and show the dialog window
         dialogBuilder.setTitle(plantType);
+        textMessage.setText(plantMessage);
         final AlertDialog deleteDiag = dialogBuilder.create();
         //Shows the dialog
         deleteDiag.show();
@@ -80,10 +116,11 @@ public class RemovePlantActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                addPlantToLogs(plantLogCandidate);
                 //We delete the plant from the database and then dismiss the dialog
                 deletePlant(plantId);
                 deleteDiag.dismiss();
-
             }
         });
 
@@ -93,7 +130,6 @@ public class RemovePlantActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //dismiss the dialog and do nothing!
                 deleteDiag.dismiss();
-
             }
         });
     }
@@ -101,13 +137,16 @@ public class RemovePlantActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //attaching a value event listener
+        /*Added a value event listener for when the database changes!
+        When there is a change, the list gets re-generated (so the array list is also re-generated).
+        This makes the app "dynamic" so to speak with the real time database :) .
+        */
         databasePlants.addValueEventListener(new ValueEventListener() {
             @Override
             //When the data changes, we need to reload the list
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //clearing the previous plant list
+                //clear the previous plant list
                 plants.clear();
 
                 //iterates through all the plants
@@ -127,7 +166,7 @@ public class RemovePlantActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
             }
         });
     }

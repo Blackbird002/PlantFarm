@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
@@ -30,23 +31,27 @@ public class MainActivity extends AppCompatActivity {
 
         //Checks if the message is empty (message is required!)
         if(!TextUtils.isEmpty(message)){
+            try{
+                //We generate a unique plant ID every time
+                String plantId = databasePlants.push().getKey();
 
-            //We generate a unique plant ID every time
-            String plantId = databasePlants.push().getKey();
+                //We construct the plant object
+                Plant plant = new Plant(plantId, selectedHerb, message);
 
-            //We construct the plant object
-            Plant plant = new Plant(plantId,selectedHerb,message);
+                //Set the value of the child (given the key that was generated)
+                databasePlants.child(plantId).setValue(plant);
 
-            //Set the value of the child (given the key that was generated)
-            databasePlants.child(plantId).setValue(plant);
+                /*
+                Time will not be part of the Plant object because TIMESTAMP is a Hashmap when
+                when created. When it is retrieved, it's returned at a long by firebase
+                */
+                Map map = new HashMap();
+                map.put("plantInTime", ServerValue.TIMESTAMP);
+                databasePlants.child(plantId).updateChildren(map);
 
-            /*
-            Time will not be part of the Plant object because TIMESTAMP is a Hashmap when
-            when created. When it is retrieved, it's returned at a long by firebase
-            */
-            Map map = new HashMap();
-            map.put("plantInTime", ServerValue.TIMESTAMP);
-            databasePlants.child(plantId).updateChildren(map);
+            } catch (DatabaseException dataError){
+                Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
+            }
 
             Toast.makeText(this, "Plant added!", Toast.LENGTH_LONG).show();
             txtMessage.setText("");

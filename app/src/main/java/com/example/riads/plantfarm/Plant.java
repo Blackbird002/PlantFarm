@@ -40,4 +40,9 @@ public class Plant {
     public String getPlantID() {
         return plantID;
     }
+
+    public void noLongerDrying(){
+        plantDrying = false;
+    }
+
 }
