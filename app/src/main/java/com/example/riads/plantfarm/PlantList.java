@@ -9,17 +9,22 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 
+//ArrayAdaptor returns a view for each object in a collection of data objects (the list of plants)
 public class PlantList extends ArrayAdapter<Plant> {
     private Activity context;
     List<Plant> plants;
 
     public PlantList(Activity context, List<Plant> plants) {
+        //Uses the layout_play_list xml file that was created (now an element in the list should look like)
         super(context, R.layout.layout_plant_list, plants);
         this.context = context;
         this.plants = plants;
     }
 
 
+    /*Overriding the getView method which gets a View that displays the data at
+    the specified position in the data.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
