@@ -25,5 +25,10 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToUpdate(View v) {
+        Intent intent = new Intent(this, UpdatePlantActivity.class);
+        startActivity(intent);
+    }
+
 
 }
