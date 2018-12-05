@@ -28,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
         String selectedHerb = spnHerb.getSelectedItem().toString();
         databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
 
+        //Checks if the message is empty (message is required!)
         if(!TextUtils.isEmpty(message)){
 
-            //We generate a unique bin ID every time
+            //We generate a unique plant ID every time
             String plantId = databasePlants.push().getKey();
 
             //We construct the plant object
@@ -39,11 +40,12 @@ public class MainActivity extends AppCompatActivity {
             //Set the value of the child (given the key that was generated)
             databasePlants.child(plantId).setValue(plant);
 
-            /*Time will not be part of the Plant object because TIMESTAMP is a Hashmap when
+            /*
+            Time will not be part of the Plant object because TIMESTAMP is a Hashmap when
             when created. When it is retrieved, it's returned at a long by firebase
             */
             Map map = new HashMap();
-            map.put("timestamp", ServerValue.TIMESTAMP);
+            map.put("plantInTime", ServerValue.TIMESTAMP);
             databasePlants.child(plantId).updateChildren(map);
 
             Toast.makeText(this, "Plant added!", Toast.LENGTH_LONG).show();
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             //Displays a message that the messagebox is empty!
-            Toast.makeText(this, "Please add a message", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please add a message!", Toast.LENGTH_LONG).show();
         }
     }
 

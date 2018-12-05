@@ -37,4 +37,7 @@ public class Plant {
         return plantDrying;
     }
 
+    public String getPlantID() {
+        return plantID;
+    }
 }
