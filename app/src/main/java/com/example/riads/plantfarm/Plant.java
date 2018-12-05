@@ -12,19 +12,17 @@ public class Plant {
 
     Boolean plantDrying;
 
-    Map plantInTime;
-    Map plantOutTime;
-    Map plantTotalTime;
+    Long plantInTime;
 
-    public Plant(String plantID, String plantType, String plantMessage,Map plantInTime) {
+    public Plant(){}
+
+    public Plant(String plantID, String plantType, String plantMessage) {
         this.plantID = plantID;
         this.plantType = plantType;
         this.plantMessage = plantMessage;
-        this.plantInTime = plantInTime;
+        this.plantInTime = null;
 
         this.plantDrying = true;
-        this.plantOutTime = null;
-        this.plantTotalTime = null;
     }
 
     public String getPlantType() {
@@ -39,15 +37,4 @@ public class Plant {
         return plantDrying;
     }
 
-    public Map getPlantInTime() {
-        return plantInTime;
-    }
-
-    public Map getPlantOutTime() {
-        return plantOutTime;
-    }
-
-    public Map getPlantTotalTime() {
-        return plantTotalTime;
-    }
 }

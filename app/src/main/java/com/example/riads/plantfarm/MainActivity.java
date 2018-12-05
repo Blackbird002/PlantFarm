@@ -13,6 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnAddToDatabase;
@@ -31,12 +34,20 @@ public class MainActivity extends AppCompatActivity {
             String plantId = databasePlants.push().getKey();
 
             //We construct the plant object
-            Plant plant = new Plant(plantId,selectedHerb,message, ServerValue.TIMESTAMP);
+            Plant plant = new Plant(plantId,selectedHerb,message);
 
             //Set the value of the child (given the key that was generated)
             databasePlants.child(plantId).setValue(plant);
 
+            /*Time will not be part of the Plant object because TIMESTAMP is a Hashmap when
+            when created. When it is retrieved, it's returned at a long by firebase
+            */
+            Map map = new HashMap();
+            map.put("timestamp", ServerValue.TIMESTAMP);
+            databasePlants.child(plantId).updateChildren(map);
+
             Toast.makeText(this, "Plant added!", Toast.LENGTH_LONG).show();
+            txtMessage.setText("");
 
         }
         else{

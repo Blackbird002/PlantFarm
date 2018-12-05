@@ -13,9 +13,17 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
     }
 
+    //Goes to the Create Activity
     public void goToCreate(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    //Goes to the Delete Activity
+    public void goToDelete(View v){
+        Intent intent = new Intent(this, RemovePlantActivity.class);
+        startActivity(intent);
+    }
+
 
 }

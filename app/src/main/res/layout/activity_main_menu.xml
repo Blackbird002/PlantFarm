@@ -38,7 +38,7 @@
         android:layout_width="354dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="29dp"
-        android:onClick="goToCreate"
+        android:onClick="goToDelete"
         android:text="Remove Plant"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
