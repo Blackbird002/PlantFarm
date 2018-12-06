@@ -1,8 +1,10 @@
 package com.example.riads.plantfarm;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,16 +18,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //This activity removes Plants from the "Plants" database."D - Delete part of CRUD"
 public class RemovePlantActivity extends AppCompatActivity {
 
     //Plant log candidate?
     Plant plantLogCandidate;
+
+    Long deltaTime = 0L;
+    Long startTime = 0L;
+    Long endTime = 0L;
+
 
     DatabaseReference databasePlants;
     List<Plant> plants;
@@ -68,6 +78,62 @@ public class RemovePlantActivity extends AppCompatActivity {
 
         //Set the value of the child (given the key that was generated)
         databaseLogs.child(plantId).setValue(remPlant);
+
+        //Create the server timestamp for plantOutTime
+        Map map = new HashMap();
+        map.put("plantOutTime", ServerValue.TIMESTAMP);
+        databaseLogs.child(plantId).updateChildren(map);
+
+        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                startTime = (Long) dataSnapshot.child("plantInTime").getValue();
+
+                String teststart = String.valueOf(startTime);
+                Log.d("StartTime:", teststart);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                endTime = (Long) dataSnapshot.child("plantOutTime").getValue();
+
+                String teststart = String.valueOf(endTime);
+                Log.d("EndTime:", teststart);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //Calculate the difference in time
+        deltaTime = endTime - startTime;
+
+        int elapsedTime = Math.toIntExact(deltaTime);
+        int days = ((((elapsedTime / 1000) / 60) / 60) / 24)  % 24;
+        int hours = ((((elapsedTime / 1000) / 60) / 60) % 24);
+        int minutes = (60 - ((elapsedTime / 1000) / 60) %60);
+        int seconds = (60 - elapsedTime / 1000 % 60);
+
+        String DryingTimeStr = "Days: " + String.valueOf(days) + " H: " + String.valueOf(hours)
+                + " M: " + String.valueOf(minutes) + " S: " + String.valueOf(seconds);
+
+
+        //Add the calculated delta for drying time
+        databaseLogs.child(plantId).child("plantDryingTime").setValue(DryingTimeStr);
+
+        //Reset
+        startTime = 0L;
+        endTime = 0L;
+        endTime = 0L;
 
         plantLogCandidate = null;
     }
