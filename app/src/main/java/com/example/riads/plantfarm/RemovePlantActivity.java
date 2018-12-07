@@ -29,6 +29,23 @@ import java.util.Map;
 //This activity removes Plants from the "Plants" database."D - Delete part of CRUD"
 public class RemovePlantActivity extends AppCompatActivity {
 
+    //Interface for setting global time values
+    public  interface setVariables{
+        void setStartTime();
+        void setEndTime();
+    }
+
+    abstract public class setTimeVariables implements setVariables{
+        public void setStartTime(Long input){
+
+        }
+
+        public void setEndTime(Long input){
+
+        }
+    }
+
+
     //Plant log candidate?
     Plant plantLogCandidate;
 
@@ -65,8 +82,9 @@ public class RemovePlantActivity extends AppCompatActivity {
         });
     }
 
-    //Adds the removed plant to the Logs (no longer drying)
-    private void addPlantToLogs(Plant remPlant){
+
+    //Adds the removed plant to the Logs (no longer drying) Phase 1...
+    private void addPlantToLogs(final Plant remPlant) {
         //Set plant drying boolean to false
         remPlant.noLongerDrying();
 
@@ -74,7 +92,7 @@ public class RemovePlantActivity extends AppCompatActivity {
         DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
 
         //We generate a unique Log ID every time
-        String logId = databaseLogs.push().getKey();
+        final String logId = databaseLogs.push().getKey();
 
         //Set the key field in plant object to the key we just got for the Log...
         remPlant.setPlantID(logId);
@@ -87,39 +105,49 @@ public class RemovePlantActivity extends AppCompatActivity {
         map.put("plantOutTime", ServerValue.TIMESTAMP);
         databaseLogs.child(logId).updateChildren(map);
 
+
+        //Asynchronous!
         databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 startTime = (Long) dataSnapshot.child("plantInTime").getValue();
+                addPlantToLogs2(logId);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
         });
+    }
 
+
+    //Adds the removed plant to the Logs (no longer drying) Phase 2...
+    private void addPlantToLogs2(final String logId) {
+        String id = logId;
+        DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
+        //Asynchronous!
         databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 endTime = (Long) dataSnapshot.child("plantOutTime").getValue();
+                addPlantToLogs3(logId);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
         });
+    }
 
-
-
+    //Adds the removed plant to the Logs (no longer drying) Phase 3...
+    private void addPlantToLogs3(String logId){
         //Calculate the difference in time
         deltaTime = endTime - startTime;
 
         Log.d("Operations:", String.valueOf(endTime) + " - " + String.valueOf(startTime)
-         + " = " + String.valueOf(deltaTime));
-
-        Log.d("DeltaTime:", String.valueOf(deltaTime));
+                + " = " + String.valueOf(deltaTime));
 
         long different = deltaTime;
 
@@ -142,6 +170,7 @@ public class RemovePlantActivity extends AppCompatActivity {
         String DryingTimeStr = "Days: " + String.valueOf(elapsedDays) + " H: " + String.valueOf(elapsedHours)
                 + " M: " + String.valueOf(elapsedMinutes) + " S: " + String.valueOf(elapsedSeconds);
 
+        DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
 
         //Add the calculated delta for drying time
         databaseLogs.child(logId).child("plantDryingTime").setValue(DryingTimeStr);
