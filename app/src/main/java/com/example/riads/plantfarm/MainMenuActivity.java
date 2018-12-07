@@ -30,5 +30,10 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToPlantLogs(View v){
+        Intent intent = new Intent(this, PlantLogsActivity.class);
+        startActivity(intent);
+    }
+
 
 }

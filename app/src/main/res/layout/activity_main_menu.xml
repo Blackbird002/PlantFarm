@@ -89,7 +89,7 @@
         android:layout_width="354dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:onClick="goToCreate"
+        android:onClick="goToPlantLogs"
         android:text="Plant Logs"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

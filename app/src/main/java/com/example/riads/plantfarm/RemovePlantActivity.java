@@ -74,23 +74,23 @@ public class RemovePlantActivity extends AppCompatActivity {
         DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
 
         //We generate a unique Log ID every time
-        String plantId = databaseLogs.push().getKey();
+        String logId = databaseLogs.push().getKey();
+
+        //Set the key field in plant object to the key we just got for the Log...
+        remPlant.setPlantID(logId);
 
         //Set the value of the child (given the key that was generated)
-        databaseLogs.child(plantId).setValue(remPlant);
+        databaseLogs.child(logId).setValue(remPlant);
 
         //Create the server timestamp for plantOutTime
         Map map = new HashMap();
         map.put("plantOutTime", ServerValue.TIMESTAMP);
-        databaseLogs.child(plantId).updateChildren(map);
+        databaseLogs.child(logId).updateChildren(map);
 
-        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 startTime = (Long) dataSnapshot.child("plantInTime").getValue();
-
-                String teststart = String.valueOf(startTime);
-                Log.d("StartTime:", teststart);
             }
 
             @Override
@@ -99,13 +99,10 @@ public class RemovePlantActivity extends AppCompatActivity {
             }
         });
 
-        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 endTime = (Long) dataSnapshot.child("plantOutTime").getValue();
-
-                String teststart = String.valueOf(endTime);
-                Log.d("EndTime:", teststart);
             }
 
             @Override
@@ -113,22 +110,41 @@ public class RemovePlantActivity extends AppCompatActivity {
 
             }
         });
+
+
 
         //Calculate the difference in time
         deltaTime = endTime - startTime;
 
-        int elapsedTime = Math.toIntExact(deltaTime);
-        int days = ((((elapsedTime / 1000) / 60) / 60) / 24)  % 24;
-        int hours = ((((elapsedTime / 1000) / 60) / 60) % 24);
-        int minutes = (60 - ((elapsedTime / 1000) / 60) %60);
-        int seconds = (60 - elapsedTime / 1000 % 60);
+        Log.d("Operations:", String.valueOf(endTime) + " - " + String.valueOf(startTime)
+         + " = " + String.valueOf(deltaTime));
 
-        String DryingTimeStr = "Days: " + String.valueOf(days) + " H: " + String.valueOf(hours)
-                + " M: " + String.valueOf(minutes) + " S: " + String.valueOf(seconds);
+        Log.d("DeltaTime:", String.valueOf(deltaTime));
+
+        long different = deltaTime;
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        String DryingTimeStr = "Days: " + String.valueOf(elapsedDays) + " H: " + String.valueOf(elapsedHours)
+                + " M: " + String.valueOf(elapsedMinutes) + " S: " + String.valueOf(elapsedSeconds);
 
 
         //Add the calculated delta for drying time
-        databaseLogs.child(plantId).child("plantDryingTime").setValue(DryingTimeStr);
+        databaseLogs.child(logId).child("plantDryingTime").setValue(DryingTimeStr);
 
         //Reset
         startTime = 0L;
