@@ -29,6 +29,23 @@ import java.util.Map;
 //This activity removes Plants from the "Plants" database."D - Delete part of CRUD"
 public class RemovePlantActivity extends AppCompatActivity {
 
+    //Interface for setting global time values
+    public  interface setVariables{
+        void setStartTime();
+        void setEndTime();
+    }
+
+    abstract public class setTimeVariables implements setVariables{
+        public void setStartTime(Long input){
+
+        }
+
+        public void setEndTime(Long input){
+
+        }
+    }
+
+
     //Plant log candidate?
     Plant plantLogCandidate;
 
@@ -65,8 +82,9 @@ public class RemovePlantActivity extends AppCompatActivity {
         });
     }
 
-    //Adds the removed plant to the Logs (no longer drying)
-    private void addPlantToLogs(Plant remPlant){
+
+    //Adds the removed plant to the Logs (no longer drying) Phase 1...
+    private void addPlantToLogs(final Plant remPlant) {
         //Set plant drying boolean to false
         remPlant.noLongerDrying();
 
@@ -74,61 +92,88 @@ public class RemovePlantActivity extends AppCompatActivity {
         DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
 
         //We generate a unique Log ID every time
-        String plantId = databaseLogs.push().getKey();
+        final String logId = databaseLogs.push().getKey();
+
+        //Set the key field in plant object to the key we just got for the Log...
+        remPlant.setPlantID(logId);
 
         //Set the value of the child (given the key that was generated)
-        databaseLogs.child(plantId).setValue(remPlant);
+        databaseLogs.child(logId).setValue(remPlant);
 
         //Create the server timestamp for plantOutTime
         Map map = new HashMap();
         map.put("plantOutTime", ServerValue.TIMESTAMP);
-        databaseLogs.child(plantId).updateChildren(map);
+        databaseLogs.child(logId).updateChildren(map);
 
-        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        //Asynchronous!
+        databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 startTime = (Long) dataSnapshot.child("plantInTime").getValue();
-
-                String teststart = String.valueOf(startTime);
-                Log.d("StartTime:", teststart);
+                addPlantToLogs2(logId);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
         });
+    }
 
-        databaseLogs.child(plantId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+    //Adds the removed plant to the Logs (no longer drying) Phase 2...
+    private void addPlantToLogs2(final String logId) {
+        String id = logId;
+        DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
+        //Asynchronous!
+        databaseLogs.child(logId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 endTime = (Long) dataSnapshot.child("plantOutTime").getValue();
-
-                String teststart = String.valueOf(endTime);
-                Log.d("EndTime:", teststart);
+                addPlantToLogs3(logId);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
         });
+    }
 
+    //Adds the removed plant to the Logs (no longer drying) Phase 3...
+    private void addPlantToLogs3(String logId){
         //Calculate the difference in time
         deltaTime = endTime - startTime;
 
-        int elapsedTime = Math.toIntExact(deltaTime);
-        int days = ((((elapsedTime / 1000) / 60) / 60) / 24)  % 24;
-        int hours = ((((elapsedTime / 1000) / 60) / 60) % 24);
-        int minutes = (60 - ((elapsedTime / 1000) / 60) %60);
-        int seconds = (60 - elapsedTime / 1000 % 60);
+        Log.d("Operations:", String.valueOf(endTime) + " - " + String.valueOf(startTime)
+                + " = " + String.valueOf(deltaTime));
 
-        String DryingTimeStr = "Days: " + String.valueOf(days) + " H: " + String.valueOf(hours)
-                + " M: " + String.valueOf(minutes) + " S: " + String.valueOf(seconds);
+        long different = deltaTime;
 
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        String DryingTimeStr = "Days: " + String.valueOf(elapsedDays) + " H: " + String.valueOf(elapsedHours)
+                + " M: " + String.valueOf(elapsedMinutes) + " S: " + String.valueOf(elapsedSeconds);
+
+        DatabaseReference databaseLogs = FirebaseDatabase.getInstance().getReference("Logs");
 
         //Add the calculated delta for drying time
-        databaseLogs.child(plantId).child("plantDryingTime").setValue(DryingTimeStr);
+        databaseLogs.child(logId).child("plantDryingTime").setValue(DryingTimeStr);
 
         //Reset
         startTime = 0L;

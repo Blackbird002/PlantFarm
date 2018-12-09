@@ -34,5 +34,9 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Graphs.class);
         startActivity(intent);
     }
+    public void goToPlantLogs(View v){
+        Intent intent = new Intent(this, PlantLogsActivity.class);
+        startActivity(intent);
+    }
 
 }
