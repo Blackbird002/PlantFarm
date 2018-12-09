@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,8 @@ import java.util.List;
 
 //This activity updates messages from the "Plants" database."U - Update part of CRUD"
 public class UpdatePlantActivity extends AppCompatActivity {
+
+    String updatedMessage = "";
 
     //Plant log candidate?
     Plant plantLogCandidate;
@@ -72,17 +75,18 @@ public class UpdatePlantActivity extends AppCompatActivity {
         //Using an AlertDialog...
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        //Using the delete_dialog xml file that I created
+        //Using the update_dialog xml file that I created
         final View dialogView = inflater.inflate(R.layout.update_dialog, null);
         dialogBuilder.setView(dialogView);
 
-        //Assigns the delete & cancel button & textview (message of plant)
+        //Assigns the update & cancel button & textview (message of plant)
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdatePlant);
         final Button buttonCancel = dialogView.findViewById(R.id.buttonUpdateCancel);
         final EditText newMessage = dialogView.findViewById(R.id.editMessage);
         final TextView textMessage = dialogView.findViewById(R.id.textViewUpdateMessage);
 
-        final String updatedMessage = newMessage.getText().toString();
+        updatedMessage = newMessage.getText().toString().trim();
+        Log.d("Updatedmessage", newMessage.getText().toString());
 
         //Set the title and show the dialog window
         dialogBuilder.setTitle(plantType);
@@ -91,7 +95,7 @@ public class UpdatePlantActivity extends AppCompatActivity {
         //Shows the dialog
         updateDiag.show();
 
-        //Waits for the delete button to be pressed
+        //Waits for the update button to be pressed
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
