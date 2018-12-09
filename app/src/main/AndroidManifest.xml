@@ -17,8 +17,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".MainMenuActivity"
-            android:parentActivityName=".RegisterActivity">
+            android:name=".MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,12 +37,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />>
-        </activity>
-        <activity
-            android:name=".RegisterActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Graphs"
