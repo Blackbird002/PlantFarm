@@ -76,7 +76,7 @@
         android:layout_width="354dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:onClick="goToCreate"
+        android:onClick="goToTemp"
         android:text="Temp/Humidity"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
