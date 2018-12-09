@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private void addPlantToFirebase(){
         String message = txtMessage.getText().toString().trim();
         String selectedHerb = spnHerb.getSelectedItem().toString();
-        databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
 
         //Checks if the message is empty (message is required!)
         if(!TextUtils.isEmpty(message)){
@@ -73,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         btnAddToDatabase = findViewById(R.id.btnAddToDatabase);
         txtMessage = findViewById(R.id.txtMessage);
         spnHerb = findViewById(R.id.spnHerb);
+        databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
+
+        // synchronizes and stores a local copy of the data for active listeners
+        databasePlants.keepSynced(true);
 
         btnAddToDatabase.setOnClickListener(new View.OnClickListener() {
             @Override

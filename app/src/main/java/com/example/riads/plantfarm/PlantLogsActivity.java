@@ -33,6 +33,10 @@ public class PlantLogsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plant_logs);
         listViewPlantLogs = findViewById(R.id.listViewPlants);
         databasePlantLogs = FirebaseDatabase.getInstance().getReference("Logs");
+
+        // synchronizes and stores a local copy of the data for active listeners
+        databasePlantLogs.keepSynced(true);
+
         plantLogs = new ArrayList<>();
 
         //When we click on a Plant for a longer time, this gets triggered...

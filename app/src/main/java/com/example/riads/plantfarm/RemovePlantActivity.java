@@ -29,23 +29,6 @@ import java.util.Map;
 //This activity removes Plants from the "Plants" database."D - Delete part of CRUD"
 public class RemovePlantActivity extends AppCompatActivity {
 
-    //Interface for setting global time values
-    public  interface setVariables{
-        void setStartTime();
-        void setEndTime();
-    }
-
-    abstract public class setTimeVariables implements setVariables{
-        public void setStartTime(Long input){
-
-        }
-
-        public void setEndTime(Long input){
-
-        }
-    }
-
-
     //Plant log candidate?
     Plant plantLogCandidate;
 
@@ -64,6 +47,10 @@ public class RemovePlantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_remove_plant);
         listViewPlants = findViewById(R.id.listViewPlants);
         databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
+
+        // synchronizes and stores a local copy of the data for active listeners
+        databasePlants.keepSynced(true);
+
         plants = new ArrayList<>();
 
         //When we click on a Plant for a longer time, this gets triggered...
