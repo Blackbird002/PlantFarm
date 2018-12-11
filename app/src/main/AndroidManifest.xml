@@ -40,6 +40,13 @@
                 android:value=".MainActivity" />>
         </activity>
         <activity
+            android:name=".PlantLogsActivity"
+            android:parentActivityName=".MainMenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />>
+        </activity>
+        <activity
             android:name=".Graphs"
             android:parentActivityName=".MainMenuActivity">
             <meta-data
