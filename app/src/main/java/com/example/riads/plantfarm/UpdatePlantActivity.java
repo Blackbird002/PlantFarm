@@ -36,6 +36,7 @@ public class UpdatePlantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_plant);
         listViewPlants = findViewById(R.id.listViewUpdatePlants);
         databasePlants = FirebaseDatabase.getInstance().getReference("Plants");
+        databasePlants.keepSynced(true);
         plants = new ArrayList<>();
 
         //When we click on a Plant for a longer time, this gets triggered...
@@ -54,7 +55,7 @@ public class UpdatePlantActivity extends AppCompatActivity {
 
     private boolean updateMessage(String id, String newMessage) {
         //getting the specified plant reference
-        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("Plants").child(id).child("plantMessage");
+        DatabaseReference dR = databasePlants.child(id).child("plantMessage");
 
         //updating message
         dR.setValue(newMessage);
@@ -177,19 +178,12 @@ public class UpdatePlantActivity extends AppCompatActivity {
 
         //Check to see if the plant was updated to testMessageNew
         for(Plant tempPlant : plants){
-            if(tempPlant.getPlantID().equals(plantId)){
+            if(tempPlant.getPlantType().equals(testHerb)){
                 if(tempPlant.getPlantMessage().equals(testMessageNew)){
                     test = true;
                     break;
                 }
             }
-        }
-
-        //Sleep for 1 seconds for the database to catch up
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
         //Removes the update plant test case
