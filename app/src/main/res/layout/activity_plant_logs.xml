@@ -18,7 +18,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Plants in Log"
+        android:text="Drying Logs"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
-        android:text="Tap on a Plant Log to select"
+        android:text="Choose on a Log to Delete"
         android:textAlignment="center" />
 
     <ListView

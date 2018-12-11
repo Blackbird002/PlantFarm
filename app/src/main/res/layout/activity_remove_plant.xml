@@ -18,7 +18,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Plants in Farm"
+        android:text="Herbs Currently Drying"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
-        android:text="Tap on a Plant to select"
+        android:text="Choose Herb To Remove From Drying"
         android:textAlignment="center" />
 
     <ListView

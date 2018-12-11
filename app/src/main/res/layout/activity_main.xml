@@ -12,7 +12,7 @@
         android:layout_width="202dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
-        android:text="Add Plant"
+        android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMessage" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="66dp"
-        android:text="@string/AddPlantTitle"
+        android:text="Add To Drying Room"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
