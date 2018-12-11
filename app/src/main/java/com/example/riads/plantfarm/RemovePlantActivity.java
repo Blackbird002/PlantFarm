@@ -268,4 +268,46 @@ public class RemovePlantActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void testRemovePlantActivity(View v){
+        boolean test = true;
+        String testMessage = "TEST REMOVE";
+        String testHerb = "TEST";
+
+        //Add a Test Plant to database
+        String plantId = databasePlants.push().getKey();
+        Plant plant = new Plant(plantId, testHerb, testMessage);
+        databasePlants.child(plantId).setValue(plant);
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Remove the test Plant
+        deletePlant(plantId);
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Check to see if the plant is still there
+        for(Plant tempPlant : plants){
+            if(tempPlant.getPlantMessage().equals(testMessage) && tempPlant.getPlantType().equals(testHerb)){
+                test = false;
+            }
+        }
+
+        if(test == true)
+            Toast.makeText(getApplicationContext(), "Remove Tests Passed!", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getApplicationContext(), "Remove Tests Failed!", Toast.LENGTH_LONG).show();
+
+    }
+
 }

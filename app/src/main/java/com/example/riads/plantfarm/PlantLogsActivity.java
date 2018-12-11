@@ -140,11 +140,53 @@ public class PlantLogsActivity extends AppCompatActivity {
             databasePlant.removeValue();
 
             //Bring up a Toast and update the user with information!
-            Toast.makeText(getApplicationContext(), "Plant Deleted!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Plant Log Deleted!", Toast.LENGTH_LONG).show();
 
         } catch (DatabaseException dataError){
             Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+
+    public void testPlantLogsActivity(View v){
+        boolean test = true;
+        String testMessage = "TEST LOG REMOVE";
+        String testHerb = "LOG TEST";
+
+        //Add a Test Log to database
+        DatabaseReference databasePlantLogTest;
+        databasePlantLogTest = FirebaseDatabase.getInstance().getReference("Logs");
+        String plantId = databasePlantLogTest.push().getKey();
+        Plant plant = new Plant(plantId, testHerb, testMessage);
+        databasePlantLogTest.child(plantId).setValue(plant);
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Remove the test Plant
+        deletePlantLog(plantId);
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Check to see if the plant is still there
+        for(Plant tempLog : plantLogs){
+            if(tempLog.getPlantMessage().equals(testMessage) && tempLog.getPlantType().equals(testHerb)){
+                test = false;
+            }
+        }
+
+        if(test == true)
+            Toast.makeText(getApplicationContext(), "Log Tests Passed!", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getApplicationContext(), "Log Tests Failed!", Toast.LENGTH_LONG).show();
     }
 }

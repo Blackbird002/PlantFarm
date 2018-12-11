@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".UpdatePlantActivity">
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btnTestUpdate"
+        android:layout_width="61dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="3dp"
+        android:onClick="testUpdatePlantActivity"
+        android:text="Test" />
+
+    <TextView
+        android:id="@+id/textUpdateView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plants Currently Drying"
+        android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/textUpdateView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textUpdateView"
+        android:text="Tap on a Plant to select"
+        android:textAlignment="center" />
+
+    <ListView
+        android:id="@+id/listViewUpdatePlants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textUpdateView1"></ListView>
+
+</RelativeLayout>
