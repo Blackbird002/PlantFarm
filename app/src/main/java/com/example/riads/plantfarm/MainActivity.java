@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databasePlants;
     List<Plant> plants;
 
+    String testId = " ";
+
     private void addPlantToFirebase(){
         String message = txtMessage.getText().toString().trim();
         String selectedHerb = spnHerb.getSelectedItem().toString();
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
             try{
                 //We generate a unique plant ID every time
                 String plantId = databasePlants.push().getKey();
+
+                //Just in case we test
+                testId = plantId;
 
                 //We construct the plant object
                 Plant plant = new Plant(plantId, selectedHerb, message);
@@ -149,9 +154,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(test == true)
-            Toast.makeText(getApplicationContext(), "Tests Passed!", Toast.LENGTH_LONG).show();
+        //Delete the testPlant case
+        DatabaseReference testPlant = FirebaseDatabase.getInstance().getReference("Plants").child(testId);
+
+        //removes the plant from the database
+        testPlant.removeValue();
+
+        if(test == false)
+            Toast.makeText(getApplicationContext(), "Add Tests Passed!", Toast.LENGTH_LONG).show();
         else
-            Toast.makeText(getApplicationContext(), "Tests Failed!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Add Tests Failed!", Toast.LENGTH_LONG).show();
     }
 }
