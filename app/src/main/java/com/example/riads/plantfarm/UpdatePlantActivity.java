@@ -78,24 +78,17 @@ public class UpdatePlantActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         //Using the update_dialog xml file that I created
         final View dialogView = inflater.inflate(R.layout.update_dialog, null);
-        dialogBuilder.setView(dialogView).setPositiveButton("Edit",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final EditText newMessage = dialogView.findViewById(R.id.editMessage);
-                        updatedMessage = newMessage.getText().toString();
-                    }
-                });
+        dialogBuilder.setView(dialogView);
 
 
 
         //Assigns the update & cancel button & textview (message of plant)
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdatePlant);
         final Button buttonCancel = dialogView.findViewById(R.id.buttonUpdateCancel);
-
+        final EditText newMessage = dialogView.findViewById(R.id.editMessage);
         final TextView textMessage = dialogView.findViewById(R.id.textViewUpdateMessage);
 
-//        updatedMessage = newMessage.getText().toString().trim();
+        updatedMessage = newMessage.getText().toString().trim();
         Log.d("Updatedmessage", updatedMessage);
 
         //Set the title and show the dialog window
