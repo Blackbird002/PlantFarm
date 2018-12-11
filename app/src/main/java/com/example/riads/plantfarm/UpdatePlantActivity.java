@@ -175,6 +175,7 @@ public class UpdatePlantActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Log.d("UpdateTest", testMessageNew);
         //Check to see if the plant was updated to testMessageNew
         for(Plant tempPlant : plants){
             if(tempPlant.getPlantID().equals(plantId)){
