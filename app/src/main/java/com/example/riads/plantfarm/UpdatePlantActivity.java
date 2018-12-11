@@ -1,5 +1,6 @@
 package com.example.riads.plantfarm;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,10 +61,10 @@ public class UpdatePlantActivity extends AppCompatActivity {
     }
 
     private boolean updateMessage(String id, String newMessage) {
-        //getting the specified artist reference
+        //getting the specified plant reference
         DatabaseReference dR = FirebaseDatabase.getInstance().getReference("Plants").child(id).child("plantMessage");
 
-        //updating artist
+        //updating message
         dR.setValue(newMessage);
         Toast.makeText(getApplicationContext(), "Plant Message Updated", Toast.LENGTH_LONG).show();
         return true;
@@ -77,16 +78,25 @@ public class UpdatePlantActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         //Using the update_dialog xml file that I created
         final View dialogView = inflater.inflate(R.layout.update_dialog, null);
-        dialogBuilder.setView(dialogView);
+        dialogBuilder.setView(dialogView).setPositiveButton("Edit",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final EditText newMessage = dialogView.findViewById(R.id.editMessage);
+                        updatedMessage = newMessage.getText().toString();
+                    }
+                });
+
+
 
         //Assigns the update & cancel button & textview (message of plant)
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdatePlant);
         final Button buttonCancel = dialogView.findViewById(R.id.buttonUpdateCancel);
-        final EditText newMessage = dialogView.findViewById(R.id.editMessage);
+
         final TextView textMessage = dialogView.findViewById(R.id.textViewUpdateMessage);
 
-        updatedMessage = newMessage.getText().toString().trim();
-        Log.d("Updatedmessage", newMessage.getText().toString());
+//        updatedMessage = newMessage.getText().toString().trim();
+        Log.d("Updatedmessage", updatedMessage);
 
         //Set the title and show the dialog window
         dialogBuilder.setTitle(plantType);
@@ -94,7 +104,6 @@ public class UpdatePlantActivity extends AppCompatActivity {
         final AlertDialog updateDiag = dialogBuilder.create();
         //Shows the dialog
         updateDiag.show();
-
         //Waits for the update button to be pressed
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override

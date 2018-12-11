@@ -59,30 +59,17 @@
         app:layout_constraintTop_toBottomOf="@+id/btnUpdatePlant" />
 
     <Button
-        android:id="@+id/btnDeletePlant"
-        android:layout_width="354dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:onClick="goToCreate"
-        android:text="Delete Plant"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPlantLogs" />
-
-    <Button
         android:id="@+id/btnTempHumid"
         android:layout_width="354dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="15dp"
         android:onClick="goToTemp"
         android:text="Temp/Humidity"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDeletePlant" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPlantLogs" />
 
     <Button
         android:id="@+id/btnPlantLogs"
