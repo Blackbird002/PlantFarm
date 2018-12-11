@@ -90,7 +90,7 @@ public class UpdatePlantActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Get the string in EditText in dialog
-                String updatedMessage = newMessage.getText().toString().trim();
+                String updatedMessage = newMessage.getText().toString();
 
                 //We update the plant message in the database and then dismiss the dialog
                 updateMessage(plantId, updatedMessage);
@@ -143,6 +143,63 @@ public class UpdatePlantActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void testUpdatePlantActivity(View v){
+        boolean test = false;
+        String testMessageOld = "TEST UPDATE OLD";
+        String testMessageNew = "TEST UPDATE NEW";
+        String testHerb = "UPDATE TEST";
+
+        //Add a Test Plant to database
+        DatabaseReference databasePlantUpdateTest;
+        databasePlantUpdateTest = FirebaseDatabase.getInstance().getReference("Plants");
+        String plantId = databasePlantUpdateTest.push().getKey();
+        Plant plant = new Plant(plantId, testHerb, testMessageOld);
+        databasePlantUpdateTest.child(plantId).setValue(plant);
+
+        //Sleep for 1 second for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Update the test Plant message
+        updateMessage(plantId,testMessageNew);
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Check to see if the plant was updated to testMessageNew
+        for(Plant tempPlant : plants){
+            if(tempPlant.getPlantID().equals(plantId)){
+                if(tempPlant.getPlantMessage().equals(testMessageNew)){
+                    test = true;
+                    break;
+                }
+            }
+        }
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //Removes the update plant test case
+        databasePlantUpdateTest = databasePlants.child(plantId);
+        databasePlantUpdateTest.removeValue();
+
+        if(test == true)
+            Toast.makeText(getApplicationContext(), "Update Tests Passed!", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getApplicationContext(), "Update Tests Failed!", Toast.LENGTH_LONG).show();
     }
 
 }

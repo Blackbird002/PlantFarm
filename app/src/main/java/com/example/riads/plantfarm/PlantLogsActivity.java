@@ -140,7 +140,7 @@ public class PlantLogsActivity extends AppCompatActivity {
             databasePlant.removeValue();
 
             //Bring up a Toast and update the user with information!
-            Toast.makeText(getApplicationContext(), "Plant Deleted!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Plant Log Deleted!", Toast.LENGTH_LONG).show();
 
         } catch (DatabaseException dataError){
             Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();

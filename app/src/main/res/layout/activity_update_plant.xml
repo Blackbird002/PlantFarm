@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btnTestUpdate"
+        android:layout_width="61dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="3dp"
+        android:onClick="testUpdatePlantActivity"
+        android:text="Test" />
+
     <TextView
         android:id="@+id/textUpdateView"
         android:layout_width="match_parent"
