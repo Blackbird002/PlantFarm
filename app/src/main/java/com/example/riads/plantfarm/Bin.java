@@ -1,5 +1,5 @@
 package com.example.riads.plantfarm;
-
+// comment for a commit
 public class Bin {
     String binID;
     String binShelf;
