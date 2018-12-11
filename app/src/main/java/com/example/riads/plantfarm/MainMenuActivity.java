@@ -30,10 +30,13 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToTemp(View v) {
+        Intent intent = new Intent(this, Graphs.class);
+        startActivity(intent);
+    }
     public void goToPlantLogs(View v){
         Intent intent = new Intent(this, PlantLogsActivity.class);
         startActivity(intent);
     }
-
 
 }
