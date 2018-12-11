@@ -15,6 +15,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private Button signOut;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         };
 
-        signOut = (Button) findViewById(R.id.btnSignOut);
+
     }
 
     //Goes to the Create Activity
@@ -64,10 +65,14 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void signOut(View v) {
         auth.signOut();
         startActivity(new Intent(MainMenuActivity.this, LoginActivity.class));
+    }
+
+    public void updateUser(View v) {
+        Intent intent = new Intent(MainMenuActivity.this, UpdateUserActivity.class);
+        startActivity(intent);
     }
 
 

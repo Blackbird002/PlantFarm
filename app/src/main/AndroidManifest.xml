@@ -47,6 +47,13 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".UpdateUserActivity"
+            android:parentActivityName=".MainMenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".SignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
