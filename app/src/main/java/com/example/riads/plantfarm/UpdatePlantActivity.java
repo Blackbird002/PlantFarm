@@ -26,12 +26,6 @@ import java.util.List;
 
 //This activity updates messages from the "Plants" database."U - Update part of CRUD"
 public class UpdatePlantActivity extends AppCompatActivity {
-
-    String updatedMessage = "";
-
-    //Plant log candidate?
-    Plant plantLogCandidate;
-
     DatabaseReference databasePlants;
     List<Plant> plants;
     ListView listViewPlants;
@@ -51,8 +45,6 @@ public class UpdatePlantActivity extends AppCompatActivity {
                 //We get the plant ID here...
                 Plant plant = plants.get(i);
 
-                //Candidate for plant log database
-                plantLogCandidate = plant;
                 //We show the update dialog next...
                 showUpdateDialog(plant.getPlantID(),plant.getPlantType(), plant.getPlantMessage());
                 return true;
@@ -77,19 +69,14 @@ public class UpdatePlantActivity extends AppCompatActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         //Using the update_dialog xml file that I created
-        final View dialogView = inflater.inflate(R.layout.update_dialog, null);
+        View dialogView = inflater.inflate(R.layout.update_dialog, null);
         dialogBuilder.setView(dialogView);
-
-
 
         //Assigns the update & cancel button & textview (message of plant)
         final Button buttonUpdate = dialogView.findViewById(R.id.buttonUpdatePlant);
         final Button buttonCancel = dialogView.findViewById(R.id.buttonUpdateCancel);
         final EditText newMessage = dialogView.findViewById(R.id.editMessage);
         final TextView textMessage = dialogView.findViewById(R.id.textViewUpdateMessage);
-
-        updatedMessage = newMessage.getText().toString().trim();
-        Log.d("Updatedmessage", updatedMessage);
 
         //Set the title and show the dialog window
         dialogBuilder.setTitle(plantType);
@@ -101,6 +88,9 @@ public class UpdatePlantActivity extends AppCompatActivity {
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Get the string in EditText in dialog
+                String updatedMessage = newMessage.getText().toString().trim();
 
                 //We update the plant message in the database and then dismiss the dialog
                 updateMessage(plantId, updatedMessage);
