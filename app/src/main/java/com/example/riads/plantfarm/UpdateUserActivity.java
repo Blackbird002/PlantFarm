@@ -209,7 +209,7 @@ public class UpdateUserActivity extends AppCompatActivity {
                 }
             }
         });
-
+// button to delete user
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
