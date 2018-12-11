@@ -37,6 +37,8 @@
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="sign_out">Sign Out</string>
+    <string name="update_user">Update Info</string>
+    <string name="prompt_password">Update Info</string>
 
     <string-array name="shelves">
         <item>1</item>
