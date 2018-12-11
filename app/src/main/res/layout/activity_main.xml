@@ -74,4 +74,15 @@
         app:layout_constraintBottom_toTopOf="@+id/spnHerb"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/btnTestAdd"
+        android:layout_width="61dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="3dp"
+        android:onClick="mainActivityTest"
+        android:text="Test"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

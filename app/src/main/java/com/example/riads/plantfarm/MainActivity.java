@@ -3,18 +3,24 @@ package com.example.riads.plantfarm;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText txtMessage;
     private Spinner spnHerb;
     DatabaseReference databasePlants;
+    List<Plant> plants;
 
     private void addPlantToFirebase(){
         String message = txtMessage.getText().toString().trim();
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        plants = new ArrayList<>();
         //Assign all the UI elements
         btnAddToDatabase = findViewById(R.id.btnAddToDatabase);
         txtMessage = findViewById(R.id.txtMessage);
@@ -84,5 +92,66 @@ public class MainActivity extends AppCompatActivity {
                 addPlantToFirebase();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*Added a value event listener for when the database changes!
+        When there is a change, the list gets re-generated (so the array list is also re-generated).
+        This makes the app "dynamic" so to speak with the real time database :) .
+        */
+        databasePlants.addValueEventListener(new ValueEventListener() {
+            @Override
+            //When the data changes, we need to reload the list
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //clear the previous plants
+                plants.clear();
+
+                //iterates through all the plants
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    //getting plants
+                    Plant plant = postSnapshot.getValue(Plant.class);
+                    //adding the plant to the array list
+                    plants.add(plant);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Database Error!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    //Test
+    public void mainActivityTest(View v){
+        boolean test = false;
+
+        String expectedMessage = "TEST MESSAGE";
+        String testMessage = "TEST MESSAGE";
+
+        txtMessage.setText(testMessage);
+        spnHerb.setSelection(0);
+        btnAddToDatabase.performClick();
+
+        //Sleep for 1 seconds for the database to catch up
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for(Plant templant : plants){
+            if(templant.getPlantMessage().equals(expectedMessage)){
+                test = true;
+                break;
+            }
+        }
+
+        if(test == true)
+            Toast.makeText(getApplicationContext(), "Tests Passed!", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(getApplicationContext(), "Tests Failed!", Toast.LENGTH_LONG).show();
     }
 }
