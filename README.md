@@ -35,4 +35,4 @@ Final project for Fall 2018 CSCI 310 - Advanced Programming Java
 
 ## Temperature and Humidity
 
-<img src="JavaFinalPics/TempHumidity.PNG">
+<img src="JavaFinalPics/TempHumdity.PNG">
